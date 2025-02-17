@@ -1,4 +1,0 @@
-- [ ] One input form
-- [ ] Websockets
-- [ ] Works properly
-- [ ] Looks nice
