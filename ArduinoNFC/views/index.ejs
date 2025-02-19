@@ -6,91 +6,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NFC Read/Writer</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            background-color: #75aad6;
-            font-family: Arial, sans-serif;
-        }
-
-
-        #content {
+        #contentDiv {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            width: 65%;
-            height: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 150px;
-        }
-
-
-        #writeFormContainer,
-        #readContainer {
-            display: flex;
-            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            border: 1px solid black;
+            border-radius: 15px;
             width: 50%;
-            margin-bottom: 20px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
+        #biggercontentDiv {
+            /* might put images here */
+            display: flex;
+        }
 
-        #readContent {
-            width: 750px;
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #3599aa;
-            padding: 20px;
-            border-radius: 25px;
+        #recordDiv {
+            margin-bottom: 10px;
+        }
+
+        #URLDiv {
             text-align: center;
+            margin-top: 10px;
         }
 
-
-        #readContent::-webkit-scrollbar {
-            display: none;
+        #statsDiv {
+            text-align: left;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px;
+            background-color: white;
+            width: 150px;
+            height: 100%;
+            box-sizing: border-box;
         }
 
-
-        #readContent {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+        #wins {
+            color: green;
         }
 
-
-        form {
-            padding: 20px;
+        #ties {
+            color: orange;
         }
 
-
-        input {
-            border: 1px solid #3599aa;
-            border-radius: 150px;
+        #losses {
+            color: red;
         }
 
+        #ownerDiv {
+            margin-bottom: 10px;
+        }
 
-        button {
-            background-color: #3599aa;
-            color: rgb(0, 0, 0);
-            padding: 10px 22px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 150px;
+        #pdSearch {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
     </style>
-
+<script src="slammers.js"></script>
     <script src="/socket.io/socket.io.js">
     </script>
 
@@ -107,35 +90,66 @@
 
         socket.on("result", (data) => {
             console.log(data);
-            document.getElementById('readContent').innerHTML = data.requestedValue;
+            document.getElementById('pdSearch').innerHTML = data.requestedValue;
         });
 
+        function search() {
+            let data = document.getElementById('pdSearch').innerHTML;
+            const extract = data.match(/Wins:\s*(\d+)/);
+            const Pokedex = parseInt(extract[1], 10);
+            console.log(Pokedex);
+            document.getElementById('info').innerHTML = Pokedex;
+
+            if (Slammers.includes(Pokedex)) {
+                console.log("ID found!");
+            }
+        }
     </script>
 </head>
 
 <body>
-    <div id="content">
-        <div id="writeFormContainer">
-            <form id="writeForm">
-                <input type="text" name="write" id="write">
-                <button type="submit">Send</button>
-                <script>
-                    document.getElementById('writeForm').addEventListener('submit', function (event) {
-                        event.preventDefault();
-                        let writeValue = document.getElementById('write').value;
-                        socket.emit('command', writeValue);
-                        console.log('command sent')
-                    });
-                </script> 
-            </form>
+    <div id="biggercontentDiv">
+        <div id="contentDiv">
+            <div id="recordDiv">
+                <h2>Record</h2>
+                Wins: <span id="wins">0</span> <br>
+                Ties: <span id="ties">0</span> <br>
+                Losses: <span id="losses">0</span>
             </div>
-            <!-- This div is where the read data will be displayed -->
-            <div id="readContent">
-
+            <div id="statsDiv">
+                <h2>Stats</h2>
+                Stat1: <span id="stat1">0</span><br>
+                Stat2: <span id="stat2">0</span><br>
+                Stat3: <span id="stat3">0</span><br>
+                Stat4: <span id="stat4">0</span><br>
+                Stat5: <span id="stat5">0</span>
+            </div>
+            <div id="ownerDiv">
+                <h2>Owner: <span id="owner">None</span></h2>
             </div>
         </div>
     </div>
+    <div id="URLDiv">
+        <h1><a href="">PokePuck Page</a></h1>
     </div>
+    <div id="writeFormContainer">
+        <form id="writeForm">
+            <input type="text" name="write" id="write">
+            <button type="submit">Send</button>
+            <script>
+                document.getElementById('writeForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    let writeValue = document.getElementById('write').value;
+                    socket.emit('command', writeValue);
+                    console.log('command sent')
+                });
+            </script>
+        </form>
+    </div>
+    <div id="pdSearch"></div>
+    </div>
+    <button onclick="search()">Search Pokedex Number</button>
+    <div id="info"> </div>
 </body>
 
 </html>

@@ -19,7 +19,7 @@ function socketH(socket) {
 
         if (command == 'w') {
             main.writeToPort(data,(dataValue)=>{
-                socket.emit('result', {requestedValue: dataValue});
+                socket.emit('result', {requestedValue: "Writing was a success"});
             });
         }
         else if (command == 'r') {
