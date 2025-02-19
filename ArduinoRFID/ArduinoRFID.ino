@@ -8,6 +8,7 @@
 #include <NfcAdapter.h>
 // include the NdefMessage library
 #include <NdefMessage.h>
+#include <NdefRecord.h>
 
 PN532_SPI interface(SPI, 10);            // create a PN532 SPI interface with the SPI CS terminal located at digital pin 10
 NfcAdapter nfc = NfcAdapter(interface);  // create an NFC adapter object
@@ -261,14 +262,16 @@ void writeRecord(int recordNumber, String payload) {
 
       // Add all existing records to the new message up to the one being edited
       int recordCount = message.getRecordCount();
-      for (int i = 0; i < recordCount; i++) {
-        NdefRecord record = message.getRecord(i);
-        if (i == recordNumber) {
-          // Add your new record
-          newMessage.addTextRecord(payload);
-        } else {
-          // Add the existing record
-          newMessage.addRecord(record);
+      if (recordNumber == 0) {
+        for (int i = 0; i < recordCount; i++) {
+          NdefRecord record = message.getRecord(i);
+          if (i == recordNumber) {
+            // Add your new record
+            newMessage.addUriRecord(payload);
+          } else {
+            // Add the existing record
+            newMessage.addRecord(record);
+          }
         }
       }
 
