@@ -1,0 +1,50 @@
+  <!-- This div contains all the forms
+    <div id="content">
+       This div contains the write form -->
+        <div id="writeFormContainer">
+            <!-- This form sends a POST request when submitted -->
+            <form id="writeForm" action="http://127.0.0.1:5500/write" method="post">
+                <!-- This input field is for the "write" data -->
+                <input type="text" name="write" id="write">
+                <!-- This button submits the form -->
+                <button type="submit">Write</button>
+                <script>
+                    document.getElementById('writeForm').addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        let writeValue = document.getElementById('write').value;
+                        fetch('http://127.0.0.1:5500/write', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ write: writeValue }),
+                        });
+                    });
+                </script>
+            </form>
+            <!-- This div contains the read form and the display area -->
+            <div id="readContainer">
+                <!-- This div contains the read form -->
+                <form id="readForm" action="" method="get">
+                    <input type="text" name="read" id="read">
+                    <button type="submit">Read</button>
+                </form>
+                <script>
+                    document.getElementById('readForm').addEventListener('submit', function (event) {
+                        event.preventDefault();
+                        let readValue = document.getElementById('read').value;
+                        fetch('http://127.0.0.1:5500/read?command=' + readValue)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById('readContent').textContent = data.read;
+                            });
+                    });
+                </script>
+                </div>
+                <!-- This div is where the read data will be displayed -->
+                <div id="readContent">
+
+                </div>
+            </div>
+        </div>
+    </div>
