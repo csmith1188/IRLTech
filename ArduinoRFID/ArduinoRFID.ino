@@ -187,8 +187,8 @@ void readRecord(int recordNumber) {
       record.getPayload(payload);
 
       // Print the Hex and Printable Characters
-      Serial.print("  Payload (HEX): ");
-      PrintHexChar(payload, payloadLength);
+      // Serial.print("  Payload (HEX): ");
+      // PrintHexChar(payload, payloadLength);
 
       // Force the data into a String (might work depending on the content)
       // Real code should use smarter processing
@@ -199,31 +199,31 @@ void readRecord(int recordNumber) {
         payloadAsString += (char)payload[c];
       }
       // print the payload as a string
-      Serial.print("  Payload (as String): ");
+      // Serial.print("  Payload: ");
       Serial.println(payloadAsString);
 
       // Split the payload into wins, losses, and draws
-      int firstCommaIndex = payloadAsString.indexOf(',');
-      int secondCommaIndex = payloadAsString.indexOf(',', firstCommaIndex + 1);
+      // int firstCommaIndex = payloadAsString.indexOf(',');
+      // int secondCommaIndex = payloadAsString.indexOf(',', firstCommaIndex + 1);
 
       // Extract the wins, losses, and draws strings
-      String winsString = payloadAsString.substring(0, firstCommaIndex);
-      winsString = removeNonNumeric(winsString);
-      String lossesString = payloadAsString.substring(firstCommaIndex + 1, secondCommaIndex);
-      String drawsString = payloadAsString.substring(secondCommaIndex + 1);
+      // String winsString = payloadAsString.substring(0, firstCommaIndex);
+      // winsString = removeNonNumeric(winsString);
+      // String lossesString = payloadAsString.substring(firstCommaIndex + 1, secondCommaIndex);
+      // String drawsString = payloadAsString.substring(secondCommaIndex + 1);
 
       // Convert the strings to integers
-      int wins = winsString.toInt();
-      int losses = lossesString.toInt();
-      int draws = drawsString.toInt();
+      // int wins = winsString.toInt();
+      // int losses = lossesString.toInt();
+      // int draws = drawsString.toInt();
       
-      // Print the wins, losses, and draws
-      Serial.print("Wins: ");
-      Serial.println(wins);
-      Serial.print("Losses: ");
-      Serial.println(losses);
-      Serial.print("Draws: ");
-      Serial.println(draws);
+      // // Print the wins, losses, and draws
+      // Serial.print("Wins: ");
+      // Serial.println(wins);
+      // Serial.print("Losses: ");
+      // Serial.println(losses);
+      // Serial.print("Draws: ");
+      // Serial.println(draws);
 
       // gets record id
       String uid = record.getId();
@@ -262,16 +262,14 @@ void writeRecord(int recordNumber, String payload) {
 
       // Add all existing records to the new message up to the one being edited
       int recordCount = message.getRecordCount();
-      if (recordNumber == 0) {
-        for (int i = 0; i < recordCount; i++) {
-          NdefRecord record = message.getRecord(i);
-          if (i == recordNumber) {
-            // Add your new record
-            newMessage.addUriRecord(payload);
-          } else {
-            // Add the existing record
-            newMessage.addRecord(record);
-          }
+      for (int i = 0; i < recordCount; i++) {
+        NdefRecord record = message.getRecord(i);
+        if (i == recordNumber) {
+          // Add your new record
+          newMessage.addUriRecord(payload);
+        } else {
+          // Add the existing record
+          newMessage.addRecord(record);
         }
       }
 
