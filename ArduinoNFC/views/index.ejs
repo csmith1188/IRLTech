@@ -93,16 +93,24 @@
             document.getElementById('pdSearch').innerHTML = data.requestedValue;
         });
 
+        socket.on("searchResult", (data) => {
+            console.log(data);
+
+            document.getElementById('info').innerHTML = 
+            "name: " + data.requestedValue.name + "<br>" +
+            "type: " + data.requestedValue.pucks['2223B09'].type + "<br>" +
+            "resistance: " + data.requestedValue.pucks['2223B09'].resist + "<br>" +
+            "weakness: " + data.requestedValue.pucks['2223B09'].weakness + "<br>" +
+            "weight: " + data.requestedValue.pucks['2223B09'].weight + "<br>" +
+            "description: " +data.requestedValue.description;
+        });
+
         function search() {
             let data = document.getElementById('pdSearch').innerHTML;
             const extract = data.match(/Wins:\s*(\d+)/);
             const Pokedex = parseInt(extract[1], 10);
             console.log(Pokedex);
-            document.getElementById('info').innerHTML = Pokedex;
-
-            if (Slammers.includes(Pokedex)) {
-                console.log("ID found!");
-            }
+            socket.emit('search', Pokedex);
         }
     </script>
 </head>

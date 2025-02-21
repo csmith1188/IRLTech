@@ -1,4 +1,4 @@
-const Slammers = [
+var Slammers = [
 
     {
         name: "Aerodactyl",

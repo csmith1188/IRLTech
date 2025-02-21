@@ -1,6 +1,5 @@
 const main = require('./main.js');
-
-
+const {Slammers} = require('./slammers.js');
 
 function socketH(socket) {
     console.log('a user connected');
@@ -18,22 +17,27 @@ function socketH(socket) {
         const value = data.split('/')[1];
 
         if (command == 'w') {
-            main.writeToPort(data,(dataValue)=>{
-                socket.emit('result', {requestedValue: "Writing was a success"});
+            main.writeToPort(data, (dataValue) => {
+                socket.emit('result', { requestedValue: "Writing was a success" });
             });
         }
         else if (command == 'r') {
-            main.readFromPort(data,(dataValue)=>{
-                socket.emit('result', {requestedValue: dataValue});
+            main.readFromPort(data, (dataValue) => {
+                socket.emit('result', { requestedValue: dataValue });
             })
-            
+
         }
         else {
-            socket.emit('result', {requestedValue: 'Invalid command'});
+            socket.emit('result', { requestedValue: 'Invalid command' });
         }
     })
 
-
-
+    socket.on("search", function (data) {
+        clientPdex = data;
+    
+        const dataValue = Slammers.find(slammer => slammer.pokedex == clientPdex);
+    
+        socket.emit('searchResult', { requestedValue: dataValue });
+    });
 }
 module.exports = { socketH };
