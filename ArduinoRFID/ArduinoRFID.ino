@@ -86,6 +86,8 @@ void loop() {
       // get the record number
       // int customRecordNumber = 3;
       readRecord(3);
+    } else if (inputString[0] == 'r' && inputString[1] == '4') {
+      readRecord(4);
     } else if (inputString[0] == 'w' && inputString[1] == '0' && inputString[2] == '/') { // write to record 0
       // find anything after / in the inputString
       String writeString = inputString.substring(inputString.indexOf("/") + 1);
@@ -102,6 +104,9 @@ void loop() {
       // find anything after / in the inputString
       String writeString = inputString.substring(inputString.indexOf("/") + 1);
       writeRecord(3, writeString);
+    } else if (inputString[0] == 'w' && inputString[1] == '4' && inputString[2] == '/') {
+      String writeString = inputString.substring(inputString.indexOf("/") + 1);
+      writeRecord(4, writeString);
     } else if (inputString.equals("erase")) { // erase the tag
       nfc.erase();
     }
