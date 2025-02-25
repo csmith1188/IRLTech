@@ -107,10 +107,10 @@
 
         function search() {
             let data = document.getElementById('pdSearch').innerHTML;
-            const extract = data.match(/Wins:\s*(\d+)/);
-            const Pokedex = parseInt(extract[1], 10);
-            console.log(Pokedex);
-            socket.emit('search', Pokedex);
+            const extract = data.split(",");
+            const pokemonName = extract[0];
+            const pokedexNumber = extract[1];
+            socket.emit('search', pokedexNumber);
         }
     </script>
 </head>
@@ -155,7 +155,6 @@
         </form>
     </div>
     <div id="pdSearch"></div>
-    </div>
     <button onclick="search()">Search Pokedex Number</button>
     <div id="info"> </div>
 </body>
