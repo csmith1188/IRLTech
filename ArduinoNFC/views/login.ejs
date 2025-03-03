@@ -3,14 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #d7f1fc;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom right, #b0d5e4, #eefaff)
+        }
+        #login {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #389bdd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        a {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #40a3ff;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <form method="post" action="/login">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Login</button>
-    </form>
-    <a href="https://formbar.yorktechapps.com/oauth?redirectURL=http://localhost:3000/login">Login with Formbar</a>
+    <div id="login">
+        <form method="post" action="/login">
+            <input type="text" name="username" placeholder="Username" id="username">
+            <input type="password" name="password" placeholder="Password" id="password">
+            <button type="submit" id="submit">Login</button>
+        </form>
+        <a href="https://formbar.yorktechapps.com/oauth?redirectURL=http://localhost:3000/login">Login with Formbar</a>
+    </div>
 </body>
 </html>

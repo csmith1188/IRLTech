@@ -83,7 +83,7 @@ function postLogin(req, res) {
 
 
 function index(req, res) {
-    res.render('index');
+    res.render('index', { user: req.session.user });
 }
 
 function getProfile(req, res) {

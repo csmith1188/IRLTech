@@ -1,11 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+
+
+    </style>
+   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
 </head>
 <body>
     <h2><%= user %>'s Profile</h2>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fce4ec;
+            font-family: Arial, sans-serif;
+        }
+        #login {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #e91e63;
+        }
+        a {
+            display: block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #ff4081;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="login">
+        <form method="post" action="/login">
+            <input type="text" name="username" placeholder="Username" id="username">
+            <input type="password" name="password" placeholder="Password" id="password">
+            <button type="submit" id="submit">Login</button>
+        </form>
+        <a href="https://formbar.yorktechapps.com/oauth?redirectURL=http://localhost:3000/login">Login with Formbar</a>
+    </div>
 </body>
 </html>
