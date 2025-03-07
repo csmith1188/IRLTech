@@ -1,80 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <style>
-
-
-    </style>
-   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-</head>
-<body>
-    <h2><%= user %>'s Profile</h2>
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #fce4ec;
+            margin: 0;
+            background-color: #d7f1fc;
             font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom right, #b0d5e4, #eefaff);
         }
-        #login {
+
+        #contentDiv {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background: white;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            position: relative;
+            overflow: hidden;
             text-align: center;
-            width: 300px;
         }
-        input {
+
+        #recordDiv,
+        #statsDiv,
+        #ownerDiv {
+            margin-bottom: 15px;
+        }
+
+        #statsDiv {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
+        #wins {
+            color: green;
+        }
+
+        #ties {
+            color: orange;
+        }
+
+        #losses {
+            color: red;
+        }
+
         button {
-            width: 100%;
-            padding: 10px;
-            background-color: #ff4081;
+            padding: 10px 20px;
+            background-color: #389bdd;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
+
         button:hover {
-            background-color: #e91e63;
+            background-color: #2b7bbd;
         }
+
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
         a {
             display: block;
             margin-top: 15px;
             text-decoration: none;
-            color: #ff4081;
+            color: #40a3ff;
             font-weight: bold;
         }
+
+        #writeForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on("connect", () => console.log('Connected to server'));
+        socket.on("disconnect", () => console.log('Disconnected from server'));
+        socket.on("result", (data) => {
+            document.getElementById('pdSearch').innerHTML = data.requestedValue;
+        });
+        socket.on("searchResult", (data) => {
+            document.getElementById('info').innerHTML =
+                `Name: ${data.requestedValue.name}<br>
+                Type: ${data.requestedValue.pucks['2223B09'].type}<br>
+                Resistance: ${data.requestedValue.pucks['2223B09'].resist}<br>
+                Weakness: ${data.requestedValue.pucks['2223B09'].weakness}<br>
+                Weight: ${data.requestedValue.pucks['2223B09'].weight}<br>
+                Description: ${data.requestedValue.description}`;
+        });
+        function search() {
+            let data = document.getElementById('pdSearch').innerHTML;
+            const extract = data.split(",");
+            socket.emit('search', extract[1]);
+        }
+    </script>
 </head>
+
 <body>
-    <div id="login">
-        <form method="post" action="/login">
-            <input type="text" name="username" placeholder="Username" id="username">
-            <input type="password" name="password" placeholder="Password" id="password">
-            <button type="submit" id="submit">Login</button>
-        </form>
-        <a href="https://formbar.yorktechapps.com/oauth?redirectURL=http://localhost:3000/login">Login with Formbar</a>
+    <div id="contentDiv">
+        <div id="recordDiv">
+            <h2>Record</h2>
+            Wins: <span id="wins">0</span> <br>
+            Ties: <span id="ties">0</span> <br>
+            Losses: <span id="losses">0</span>
+        </div>
+        <div id="statsDiv">
+            <h2>Stats</h2>
+            Stat1: <span id="stat1">0</span><br>
+            Stat2: <span id="stat2">0</span><br>
+            Stat3: <span id="stat3">0</span><br>
+            Stat4: <span id="stat4">0</span><br>
+            Stat5: <span id="stat5">0</span>
+        </div>
+        <div id="ownerDiv">
+            <h2>Owner: <span id="owner">
+                    <%= user %>
+                </span></h2>
+        </div>
     </div>
+    <a href="">PokePuck Page</a>
+    <form id="writeForm">
+        <input type="text" name="write" id="write">
+        <button type="submit">Send</button>
+    </form>
+    <div id="pdSearch"></div>
+    <button onclick="search()">Search Pokedex Number</button>
+    <div id="info"></div>
+    <script>
+        document.getElementById('writeForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            let writeValue = document.getElementById('write').value;
+            socket.emit('command', writeValue);
+            console.log('command sent');
+        });
+    </script>
 </body>
+
 </html>
