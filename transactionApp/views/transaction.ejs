@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+</head>
+<body>
+    <h1>Transaction</h1>
+    <h2>Balance:</h2>
+    <h3>$<%= balance.toFixed(2) %></h3>
+    <form action="/transaction" method="post">
+        <input name="accountNumber" type="text" id="accountNumber" placeholder="Account Number" minlength="8" maxlength="8">
+        <input name="amount" type="number" id="amount" placeholder="Amount">
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <a href="/">Back</a>
+</body>
+</html>
