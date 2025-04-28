@@ -11,12 +11,9 @@
 #include <NdefMessage.h>
 #include <NdefRecord.h>
 
-#define SDA_PIN 4
-#define SCL_PIN 5
-
 // PN532_SPI interface(SPI, 10);            // create a PN532 SPI interface with the SPI CS terminal located at digital pin 10
 // NfcAdapter nfcAdapter = NfcAdapter(interface);  // create an NFC adapter object
-Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
+Adafruit_PN532 nfc(10);
 String tagId = "None";
 NdefMessage message = NdefMessage();            // createa a message object
 
@@ -28,7 +25,7 @@ void setup(void) {
 
   // initialize the NFC adapter
   // nfcAdapter.begin();
-  Wire.begin();
+  SPI.begin();
   nfc.begin();
   nfc.SAMConfig();
   Serial.print("\n");
@@ -68,6 +65,8 @@ void setup(void) {
   Serial.print("erase");
   Serial.print("\n");
   Serial.print("\n");
+
+  Serial.print("Place your tag...");
 }
 
 void writeRawData(uint8_t page, uint8_t *data) {
@@ -83,11 +82,27 @@ void loop() {
   uint8_t data[4] = { 0xDE, 0xAD, 0xBE, 0xEF };  // Data to write
 
     // Write to page 4
-    if (nfc.ntag2xx_WritePage(4, data)) {
-      Serial.println("Write successful to page 4");
-    } else {
-      Serial.println("Write failed!");
+    uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
+    uint8_t uidLength;
+
+    while (nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength)) {
+      Serial.println("Tag detected");
+      if (nfc.ntag2xx_WritePage(4, data)) {
+        Serial.println("Write successful to page 4");
+      } else {
+        Serial.println("Write failed!");
+      }
+      // uint8_t buffer[4];
+      // if (nfc.ntag2xx_ReadPage(4, buffer)) {
+      // Serial.print("Page 4 Data: ");
+      // for (int i = 0; i < 4; i++) {
+      //     Serial.print(buffer[i], HEX);
+      //     Serial.print(" ");
+      // }
+    // Serial.println();
     }
+// }
+      
 
   // while (Serial.available() > 0) {
 
