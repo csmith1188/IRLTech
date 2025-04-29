@@ -38,15 +38,15 @@ def ir_loop():
                 if hex_signal == hex(code):
                     print(f"Button pressed: {name}")
                     if name == "1":
-                        sio.emit('startPoll', ("1", False, "", [{"answer":"Done/ready?","weight":1,"color":"#00ff00"}], False, 1, [], [], [], [], False))
+                        sio.emit('startPoll', ("1", False, "Done/Ready", [{"answer":"Done/ready?","weight":1,"color":"#00ff00"}], False, 1, [], [], [], [], False))
                     elif name == "2":
-                        sio.emit('startPoll', ("2", False, "", [{"answer":"True","weight":1,"color":"#00ff00"}, {"answer":"False","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
+                        sio.emit('startPoll', ("2", False, "True/False", [{"answer":"True","weight":1,"color":"#00ff00"}, {"answer":"False","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
                     elif name == "3":
-                        sio.emit('startPoll', ("3", False, "", [{"answer":"Up","weight":1,"color":"#00ff00"}, {"answer":"Wiggle","weight":1,"color":"#0000ff"}, {"answer":"Down","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
+                        sio.emit('startPoll', ("3", False, "TUTD", [{"answer":"Up","weight":1,"color":"#00ff00"}, {"answer":"Wiggle","weight":1,"color":"#0000ff"}, {"answer":"Down","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
                     elif name == "4":
-                        sio.emit('startPoll', ("4", False, "", [{"answer":"A","weight":1,"color":"#ff0000"}, {"answer":"B","weight":1,"color":"#00ff00"}, {"answer":"C","weight":1,"color":"#0000ff"}, {"answer":"D","weight":1,"color":"#A83295"}], False, 1, [], [], [], [], False))
+                        sio.emit('startPoll', ("4", False, "Multiple Choice", [{"answer":"A","weight":1,"color":"#ff0000"}, {"answer":"B","weight":1,"color":"#00ff00"}, {"answer":"C","weight":1,"color":"#0000ff"}, {"answer":"D","weight":1,"color":"#A83295"}], False, 1, [], [], [], [], False))
                     elif name == "5":
-                        sio.emit('startPoll', ("1", True, "", [{"answer":"Submit Text","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
+                        sio.emit('startPoll', ("1", True, "Essay", [{"answer":"Submit Text","weight":1,"color":"#ff0000"}], False, 1, [], [], [], [], False))
                     elif name == "play_pause":
                         sio.emit('clearPoll')
                     time.sleep(0.5)
