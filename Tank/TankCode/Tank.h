@@ -6,22 +6,46 @@
 #include <WebServer.h>
 #include <ArduinoOTA.h>
 
+// =====================
 // WIFI
+// =====================
 extern const char* ssid;
 extern const char* password;
 
+// =====================
 // WEB SERVER
+// =====================
 extern WebServer server;
 
+// =====================
 // MOTOR SPEED
+// =====================
 extern int motorSpeed;
 
+// =====================
 // IR FUNCTIONS
+// =====================
 void initIR();
 void sendIROn();
-void sendIROff();
 
+// =====================
+// IR RECEIVER FUNCTIONS
+// =====================
+void initIRReceiver();
+void handleIRReceiver();
+
+// =====================
+// TURRET FUNCTIONS
+// =====================
+void initTurret();
+void turretLeft();
+void turretRight();
+void turretCenter();
+void setTurretAngle(int angle);
+
+// =====================
 // MOTOR FUNCTIONS
+// =====================
 void initMotors();
 void forward();
 void backward();
@@ -30,12 +54,16 @@ void right();
 void stopMotors();
 void setSpeed(int spd);
 
+// =====================
 // WIFI + SERVER
+// =====================
 void initWiFi();
 void initWebServer();
 void handleWebClient();
 
+// =====================
 // OTA
+// =====================
 void initOTA();
 void handleOTA();
 

@@ -8,32 +8,26 @@
 #define IN3 32
 #define IN4 23
 
-const int freq = 5000;
-const int resolution = 8;
-
 int motorSpeed = 200;
 
 void initMotors(){
 
-  pinMode(ENA, OUTPUT);
-  pinMode(ENB, OUTPUT);
-
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
+  
   pinMode(IN4, OUTPUT);
 
-  ledcAttach(ENA, freq, resolution);
-  ledcAttach(ENB, freq, resolution);
+  // NEW ESP32 LEDC API
+  ledcAttach(ENA, 5000, 8);
+  ledcAttach(ENB, 5000, 8);
 
   stopMotors();
 }
 
 void setSpeed(int spd){
-
   ledcWrite(ENA, spd);
   ledcWrite(ENB, spd);
-
 }
 
 void forward(){

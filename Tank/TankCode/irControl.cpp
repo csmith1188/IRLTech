@@ -12,8 +12,6 @@ void initIR() {
 // Example Elegoo-style commands
 void sendIROn() {
   irsend.sendNEC(0x00FF45BA, 32);  // Example: Power button
+  Serial.println("SHOOT");
 }
 
-void sendIROff() {
-  irsend.sendNEC(0x00FF15EA, 32);  // Example: another button
-}
